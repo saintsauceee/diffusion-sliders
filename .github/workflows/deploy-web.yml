@@ -33,9 +33,6 @@ jobs:
         run: |
           if [ ! -d outputs/unitoken ]; then
             echo "::error::outputs/unitoken/ is not checked into the repo."
-            echo "Either commit the slice you want to publish (use 'git add -f'"
-            echo "since outputs/ is gitignored), or run this workflow_dispatch"
-            echo "after pushing the data branch."
             exit 1
           fi
           echo "Found $(find outputs/unitoken -name '*.png' | wc -l) PNG(s)."
@@ -44,30 +41,36 @@ jobs:
         with:
           node-version: '20'
 
+      # Enables Pages on the repo + computes basePath. Safe to call when already enabled.
+      - name: Configure GitHub Pages
+        id: pages
+        uses: actions/configure-pages@v5
+        with:
+          enablement: true
+          static_site_generator: next
+
       - name: Install dependencies
-        run: npm install --no-audit --no-fund
+        run: npm install --no-audit --no-fund --loglevel verbose 2>&1 | tail -40
 
-      - name: Compute base path
-        id: basepath
-        working-directory: ${{ github.workspace }}
-        run: |
-          OWNER_LOWER=$(echo "${{ github.repository_owner }}" | tr '[:upper:]' '[:lower:]')
-          REPO_NAME="${{ github.event.repository.name }}"
-          if [ "$REPO_NAME" = "${OWNER_LOWER}.github.io" ]; then
-            BASE=""
-          else
-            BASE="/$REPO_NAME"
-          fi
-          echo "base=$BASE" >> "$GITHUB_OUTPUT"
-          echo "BASE_PATH set to '$BASE'"
-
-      - name: Build static site
+      - name: Pre-build (scan outputs/, write tree + stage PNGs)
         env:
-          BASE_PATH: ${{ steps.basepath.outputs.base }}
           OUTPUTS_DIR: ${{ github.workspace }}/outputs
           STAGE_MODE: copy
           CI: 'true'
-        run: npm run build
+        run: |
+          node scripts/build-tree.mjs
+          echo "--- manifest first 30 lines ---"
+          head -n 30 lib/tree-data.generated.ts
+          echo "--- public/data/unitoken size ---"
+          du -sh public/data/unitoken
+
+      - name: Next build (static export)
+        env:
+          BASE_PATH: ${{ steps.pages.outputs.base_path }}
+          NEXT_TELEMETRY_DISABLED: '1'
+        run: |
+          echo "BASE_PATH=$BASE_PATH"
+          npx next build
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
