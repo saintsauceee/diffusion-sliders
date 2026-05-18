@@ -1,0 +1,539 @@
+{
+  "concept": "person_emotion",
+  "steering_vector_dir": "outputs/unitoken/person_emotion",
+  "prompt": "A portrait of a person.",
+  "tokens_to_edit": [
+    "person"
+  ],
+  "layer": 0,
+  "steer_all_tokens": false,
+  "seed": 42,
+  "cfg": 3.0,
+  "temperature": 1.0,
+  "image_top_k": 4000,
+  "max_dreamsim_distance": 0.3,
+  "initialization": {
+    "initial_min_projection_value": -0.4,
+    "effective_minimum_value": -0.4,
+    "search_minimum_value": -0.4,
+    "doubling_attempts": [
+      {
+        "strength": -0.4,
+        "dreamsim_to_reference": 0.2973554730415344
+      },
+      {
+        "strength": -0.8,
+        "dreamsim_to_reference": 0.3852590322494507
+      }
+    ]
+  },
+  "elastic_band": {
+    "starting_number_of_points": 5,
+    "maximum_number_of_points": 16,
+    "maximum_number_of_iterations": 5,
+    "target_gap": 0.075,
+    "expand_threshold": 0.15,
+    "lam": 1.0,
+    "epsilon": 0.05,
+    "move_fraction": 1.0,
+    "base_step_fraction": 0.05,
+    "min_meaningful_move": 0.03,
+    "min_normalized_gap_for_move": 0.08,
+    "min_gap_imbalance_for_move": 0.01,
+    "inference_batch_size": 1
+  },
+  "valid_range": {
+    "minimum_valid_value": -0.4,
+    "maximum_valid_value": 0.0
+  },
+  "all_generated_strengths": [
+    -0.8,
+    -0.4,
+    -0.3,
+    -0.2,
+    -0.1,
+    0.0
+  ],
+  "elastic_search_result": {
+    "stop_reason": "max_iterations_reached",
+    "iterations": [
+      {
+        "iteration": 1,
+        "action": "move",
+        "reason": null,
+        "control_points_before": [
+          -0.4,
+          -0.3,
+          -0.2,
+          -0.1,
+          0.0
+        ],
+        "control_points_after": [
+          -0.4,
+          -0.2,
+          -0.2,
+          -0.2,
+          0.0
+        ],
+        "reference_distances": [
+          {
+            "strength": -0.4,
+            "dreamsim_to_reference": 0.2973554730415344
+          },
+          {
+            "strength": -0.3,
+            "dreamsim_to_reference": 0.378581166267395
+          },
+          {
+            "strength": -0.2,
+            "dreamsim_to_reference": 0.20733189582824707
+          },
+          {
+            "strength": -0.1,
+            "dreamsim_to_reference": 0.23049932718276978
+          },
+          {
+            "strength": 0.0,
+            "dreamsim_to_reference": -1.1920928955078125e-07
+          }
+        ],
+        "neighbor_gaps": [
+          {
+            "left": -0.4,
+            "right": -0.3,
+            "dreamsim_gap": 0.20896512269973755
+          },
+          {
+            "left": -0.3,
+            "right": -0.2,
+            "dreamsim_gap": 0.3385430574417114
+          },
+          {
+            "left": -0.2,
+            "right": -0.1,
+            "dreamsim_gap": 0.24474692344665527
+          },
+          {
+            "left": -0.1,
+            "right": 0.0,
+            "dreamsim_gap": 0.23049932718276978
+          }
+        ],
+        "normalized_neighbor_gaps": [
+          2.786201635996501,
+          4.513907432556152,
+          3.2632923126220703,
+          3.0733243624369306
+        ],
+        "base_step": 0.05,
+        "move_threshold": 0.05,
+        "updates": [
+          {
+            "index": 1,
+            "old_value": -0.3,
+            "new_value": -0.2,
+            "left_gap_normalized": 2.786201635996501,
+            "right_gap_normalized": 4.513907432556152,
+            "gap_imbalance": 1.7277057965596514,
+            "max_local_gap": 4.513907432556152,
+            "direction": "right",
+            "step_size": 0.13638528982798256
+          },
+          {
+            "index": 3,
+            "old_value": -0.1,
+            "new_value": -0.2,
+            "left_gap_normalized": 3.2632923126220703,
+            "right_gap_normalized": 3.0733243624369306,
+            "gap_imbalance": 0.18996795018513968,
+            "max_local_gap": 3.2632923126220703,
+            "direction": "left",
+            "step_size": 0.059498397509256985
+          }
+        ]
+      },
+      {
+        "iteration": 2,
+        "action": "expand",
+        "control_points_before": [
+          -0.4,
+          -0.2,
+          -0.2,
+          -0.2,
+          0.0
+        ],
+        "reference_distances": [
+          {
+            "strength": -0.4,
+            "dreamsim_to_reference": 0.2973554730415344
+          },
+          {
+            "strength": -0.2,
+            "dreamsim_to_reference": 0.20733189582824707
+          },
+          {
+            "strength": -0.2,
+            "dreamsim_to_reference": 0.20733189582824707
+          },
+          {
+            "strength": -0.2,
+            "dreamsim_to_reference": 0.20733189582824707
+          },
+          {
+            "strength": 0.0,
+            "dreamsim_to_reference": -1.1920928955078125e-07
+          }
+        ],
+        "neighbor_gaps": [
+          {
+            "left": -0.4,
+            "right": -0.2,
+            "dreamsim_gap": 0.31226396560668945
+          },
+          {
+            "left": -0.2,
+            "right": -0.2,
+            "dreamsim_gap": -1.1920928955078125e-07
+          },
+          {
+            "left": -0.2,
+            "right": -0.2,
+            "dreamsim_gap": -1.1920928955078125e-07
+          },
+          {
+            "left": -0.2,
+            "right": 0.0,
+            "dreamsim_gap": 0.20733189582824707
+          }
+        ],
+        "normalized_neighbor_gaps": [
+          4.163519541422526,
+          -1.5894571940104167e-06,
+          -1.5894571940104167e-06,
+          2.764425277709961
+        ],
+        "largest_gap_index": 0,
+        "inserted_midpoint": -0.3
+      },
+      {
+        "iteration": 3,
+        "action": "move",
+        "reason": null,
+        "control_points_before": [
+          -0.4,
+          -0.3,
+          -0.2,
+          -0.2,
+          -0.2,
+          0.0
+        ],
+        "control_points_after": [
+          -0.4,
+          -0.2,
+          -0.2,
+          -0.2,
+          -0.1,
+          0.0
+        ],
+        "reference_distances": [
+          {
+            "strength": -0.4,
+            "dreamsim_to_reference": 0.2973554730415344
+          },
+          {
+            "strength": -0.3,
+            "dreamsim_to_reference": 0.378581166267395
+          },
+          {
+            "strength": -0.2,
+            "dreamsim_to_reference": 0.20733189582824707
+          },
+          {
+            "strength": -0.2,
+            "dreamsim_to_reference": 0.20733189582824707
+          },
+          {
+            "strength": -0.2,
+            "dreamsim_to_reference": 0.20733189582824707
+          },
+          {
+            "strength": 0.0,
+            "dreamsim_to_reference": -1.1920928955078125e-07
+          }
+        ],
+        "neighbor_gaps": [
+          {
+            "left": -0.4,
+            "right": -0.3,
+            "dreamsim_gap": 0.20896512269973755
+          },
+          {
+            "left": -0.3,
+            "right": -0.2,
+            "dreamsim_gap": 0.3385430574417114
+          },
+          {
+            "left": -0.2,
+            "right": -0.2,
+            "dreamsim_gap": -1.1920928955078125e-07
+          },
+          {
+            "left": -0.2,
+            "right": -0.2,
+            "dreamsim_gap": -1.1920928955078125e-07
+          },
+          {
+            "left": -0.2,
+            "right": 0.0,
+            "dreamsim_gap": 0.20733189582824707
+          }
+        ],
+        "normalized_neighbor_gaps": [
+          2.786201635996501,
+          4.513907432556152,
+          -1.5894571940104167e-06,
+          -1.5894571940104167e-06,
+          2.764425277709961
+        ],
+        "base_step": 0.05,
+        "move_threshold": 0.05,
+        "updates": [
+          {
+            "index": 1,
+            "old_value": -0.3,
+            "new_value": -0.2,
+            "left_gap_normalized": 2.786201635996501,
+            "right_gap_normalized": 4.513907432556152,
+            "gap_imbalance": 1.7277057965596514,
+            "max_local_gap": 4.513907432556152,
+            "direction": "right",
+            "step_size": 0.13638528982798256
+          },
+          {
+            "index": 4,
+            "old_value": -0.2,
+            "new_value": -0.1,
+            "left_gap_normalized": -1.5894571940104167e-06,
+            "right_gap_normalized": 2.764425277709961,
+            "gap_imbalance": 2.764426867167155,
+            "max_local_gap": 2.764425277709961,
+            "direction": "right",
+            "step_size": 0.18822134335835775
+          }
+        ]
+      },
+      {
+        "iteration": 4,
+        "action": "expand",
+        "control_points_before": [
+          -0.4,
+          -0.2,
+          -0.2,
+          -0.2,
+          -0.1,
+          0.0
+        ],
+        "reference_distances": [
+          {
+            "strength": -0.4,
+            "dreamsim_to_reference": 0.2973554730415344
+          },
+          {
+            "strength": -0.2,
+            "dreamsim_to_reference": 0.20733189582824707
+          },
+          {
+            "strength": -0.2,
+            "dreamsim_to_reference": 0.20733189582824707
+          },
+          {
+            "strength": -0.2,
+            "dreamsim_to_reference": 0.20733189582824707
+          },
+          {
+            "strength": -0.1,
+            "dreamsim_to_reference": 0.23049932718276978
+          },
+          {
+            "strength": 0.0,
+            "dreamsim_to_reference": -1.1920928955078125e-07
+          }
+        ],
+        "neighbor_gaps": [
+          {
+            "left": -0.4,
+            "right": -0.2,
+            "dreamsim_gap": 0.31226396560668945
+          },
+          {
+            "left": -0.2,
+            "right": -0.2,
+            "dreamsim_gap": -1.1920928955078125e-07
+          },
+          {
+            "left": -0.2,
+            "right": -0.2,
+            "dreamsim_gap": -1.1920928955078125e-07
+          },
+          {
+            "left": -0.2,
+            "right": -0.1,
+            "dreamsim_gap": 0.24474692344665527
+          },
+          {
+            "left": -0.1,
+            "right": 0.0,
+            "dreamsim_gap": 0.23049932718276978
+          }
+        ],
+        "normalized_neighbor_gaps": [
+          4.163519541422526,
+          -1.5894571940104167e-06,
+          -1.5894571940104167e-06,
+          3.2632923126220703,
+          3.0733243624369306
+        ],
+        "largest_gap_index": 0,
+        "inserted_midpoint": -0.3
+      },
+      {
+        "iteration": 5,
+        "action": "move",
+        "reason": null,
+        "control_points_before": [
+          -0.4,
+          -0.3,
+          -0.2,
+          -0.2,
+          -0.2,
+          -0.1,
+          0.0
+        ],
+        "control_points_after": [
+          -0.4,
+          -0.2,
+          -0.2,
+          -0.2,
+          -0.2,
+          -0.2,
+          0.0
+        ],
+        "reference_distances": [
+          {
+            "strength": -0.4,
+            "dreamsim_to_reference": 0.2973554730415344
+          },
+          {
+            "strength": -0.3,
+            "dreamsim_to_reference": 0.378581166267395
+          },
+          {
+            "strength": -0.2,
+            "dreamsim_to_reference": 0.20733189582824707
+          },
+          {
+            "strength": -0.2,
+            "dreamsim_to_reference": 0.20733189582824707
+          },
+          {
+            "strength": -0.2,
+            "dreamsim_to_reference": 0.20733189582824707
+          },
+          {
+            "strength": -0.1,
+            "dreamsim_to_reference": 0.23049932718276978
+          },
+          {
+            "strength": 0.0,
+            "dreamsim_to_reference": -1.1920928955078125e-07
+          }
+        ],
+        "neighbor_gaps": [
+          {
+            "left": -0.4,
+            "right": -0.3,
+            "dreamsim_gap": 0.20896512269973755
+          },
+          {
+            "left": -0.3,
+            "right": -0.2,
+            "dreamsim_gap": 0.3385430574417114
+          },
+          {
+            "left": -0.2,
+            "right": -0.2,
+            "dreamsim_gap": -1.1920928955078125e-07
+          },
+          {
+            "left": -0.2,
+            "right": -0.2,
+            "dreamsim_gap": -1.1920928955078125e-07
+          },
+          {
+            "left": -0.2,
+            "right": -0.1,
+            "dreamsim_gap": 0.24474692344665527
+          },
+          {
+            "left": -0.1,
+            "right": 0.0,
+            "dreamsim_gap": 0.23049932718276978
+          }
+        ],
+        "normalized_neighbor_gaps": [
+          2.786201635996501,
+          4.513907432556152,
+          -1.5894571940104167e-06,
+          -1.5894571940104167e-06,
+          3.2632923126220703,
+          3.0733243624369306
+        ],
+        "base_step": 0.05,
+        "move_threshold": 0.05,
+        "updates": [
+          {
+            "index": 1,
+            "old_value": -0.3,
+            "new_value": -0.2,
+            "left_gap_normalized": 2.786201635996501,
+            "right_gap_normalized": 4.513907432556152,
+            "gap_imbalance": 1.7277057965596514,
+            "max_local_gap": 4.513907432556152,
+            "direction": "right",
+            "step_size": 0.13638528982798256
+          },
+          {
+            "index": 5,
+            "old_value": -0.1,
+            "new_value": -0.2,
+            "left_gap_normalized": 3.2632923126220703,
+            "right_gap_normalized": 3.0733243624369306,
+            "gap_imbalance": 0.18996795018513968,
+            "max_local_gap": 3.2632923126220703,
+            "direction": "left",
+            "step_size": 0.059498397509256985
+          }
+        ]
+      }
+    ],
+    "final_control_points": [
+      -0.4,
+      -0.2,
+      -0.2,
+      -0.2,
+      -0.2,
+      -0.2,
+      0.0
+    ],
+    "valid_control_points": [
+      -0.4,
+      -0.2,
+      0.0
+    ],
+    "reference_distances": {
+      "-0.400000": 0.2973554730415344,
+      "-0.200000": 0.20733189582824707,
+      "+0.000000": -1.1920928955078125e-07
+    }
+  }
+}
