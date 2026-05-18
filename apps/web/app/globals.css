@@ -1,0 +1,42 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: dark;
+}
+
+html,
+body {
+  height: 100%;
+  background: theme('colors.ink.900');
+  color: theme('colors.ink.100');
+  -webkit-font-smoothing: antialiased;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+/* Subtle scrollbar */
+*::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+*::-webkit-scrollbar-thumb {
+  background: theme('colors.ink.700');
+  border-radius: 6px;
+}
+*::-webkit-scrollbar-thumb:hover {
+  background: theme('colors.ink.600');
+}
+
+/* Focus ring for keyboard nav */
+:focus-visible {
+  outline: 2px solid theme('colors.accent.500');
+  outline-offset: 2px;
+  border-radius: 4px;
+}

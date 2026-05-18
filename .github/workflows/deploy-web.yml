@@ -1,0 +1,85 @@
+name: Deploy web app to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'apps/web/**'
+      - 'outputs/unitoken/**'
+      - '.github/workflows/deploy-web.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: apps/web
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Verify outputs are present
+        working-directory: ${{ github.workspace }}
+        run: |
+          if [ ! -d outputs/unitoken ]; then
+            echo "::error::outputs/unitoken/ is not checked into the repo."
+            echo "Either commit the slice you want to publish (use 'git add -f'"
+            echo "since outputs/ is gitignored), or run this workflow_dispatch"
+            echo "after pushing the data branch."
+            exit 1
+          fi
+          echo "Found $(find outputs/unitoken -name '*.png' | wc -l) PNG(s)."
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: npm install --no-audit --no-fund
+
+      - name: Compute base path
+        id: basepath
+        working-directory: ${{ github.workspace }}
+        run: |
+          OWNER_LOWER=$(echo "${{ github.repository_owner }}" | tr '[:upper:]' '[:lower:]')
+          REPO_NAME="${{ github.event.repository.name }}"
+          if [ "$REPO_NAME" = "${OWNER_LOWER}.github.io" ]; then
+            BASE=""
+          else
+            BASE="/$REPO_NAME"
+          fi
+          echo "base=$BASE" >> "$GITHUB_OUTPUT"
+          echo "BASE_PATH set to '$BASE'"
+
+      - name: Build static site
+        env:
+          BASE_PATH: ${{ steps.basepath.outputs.base }}
+          OUTPUTS_DIR: ${{ github.workspace }}/outputs
+          STAGE_MODE: copy
+          CI: 'true'
+        run: npm run build
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: apps/web/out
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
