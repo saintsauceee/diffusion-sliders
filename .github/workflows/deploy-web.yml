@@ -41,16 +41,16 @@ jobs:
         with:
           node-version: '20'
 
-      # Enables Pages on the repo + computes basePath. Safe to call when already enabled.
+      # Reads Pages config (must already be enabled in repo Settings → Pages →
+      # Source = "GitHub Actions"). Surfaces basePath for next.config.mjs.
       - name: Configure GitHub Pages
         id: pages
         uses: actions/configure-pages@v5
         with:
-          enablement: true
           static_site_generator: next
 
       - name: Install dependencies
-        run: npm install --no-audit --no-fund --loglevel verbose 2>&1 | tail -40
+        run: npm install --no-audit --no-fund
 
       - name: Pre-build (scan outputs/, write tree + stage PNGs)
         env:
