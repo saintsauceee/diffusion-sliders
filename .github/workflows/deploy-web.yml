@@ -76,15 +76,25 @@ jobs:
           set -o pipefail
           npx next build 2>&1 | tee next-build.log
 
-      - name: Surface build error in summary
+      - name: Surface build error (annotations + summary)
         if: failure() && steps.nextbuild.conclusion == 'failure'
         run: |
+          # Step summary (requires admin to view, but useful when it works)
           {
             echo '## Next build failure (tail)';
             echo '```';
             tail -n 200 next-build.log || true;
             echo '```';
           } >> "$GITHUB_STEP_SUMMARY"
+
+          # Annotations are public via the check-runs API. Emit the last
+          # 80 non-empty lines of build output, each as a ::error::, so we
+          # can read the failure without admin log access.
+          tail -n 80 next-build.log | sed '/^[[:space:]]*$/d' | while IFS= read -r line; do
+            # GitHub strips control chars; remove ANSI escapes to keep it readable
+            clean=$(printf '%s' "$line" | sed $'s/\x1b\\[[0-9;]*[a-zA-Z]//g')
+            printf '::error::%s\n' "$clean"
+          done
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
