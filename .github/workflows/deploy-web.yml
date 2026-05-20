@@ -1,5 +1,7 @@
 name: Deploy web app to GitHub Pages
 
+# Re-trigger after manual Pages enablement.
+
 on:
   push:
     branches: [main]
