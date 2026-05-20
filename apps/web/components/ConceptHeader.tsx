@@ -19,9 +19,6 @@ export default function ConceptHeader({ concept }: { concept: Concept }) {
         )}
         {d?.layer != null && <Field label="layer">{d.layer}</Field>}
         {d?.seed != null && <Field label="seed">{d.seed}</Field>}
-        {d?.cfg != null && <Field label="cfg">{d.cfg}</Field>}
-        {d?.temperature != null && <Field label="temp">{d.temperature}</Field>}
-        {d?.image_top_k != null && <Field label="top_k">{d.image_top_k}</Field>}
       </dl>
     </header>
   );

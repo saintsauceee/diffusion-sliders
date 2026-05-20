@@ -151,6 +151,13 @@ export default function InferenceView({ concept, tree }: Props) {
         </ControlRow>
       )}
 
+      {/* Current effective settings — updates with selection */}
+      <CurrentSettings
+        defaults={concept.meta.defaults}
+        dimension={dimension}
+        sweepValue={currentSweep.value}
+      />
+
       {/* Grid + filmstrip per visible mode */}
       <div
         className={
@@ -225,6 +232,49 @@ function PillButton({
     >
       {children}
     </button>
+  );
+}
+
+function CurrentSettings({
+  defaults,
+  dimension,
+  sweepValue,
+}: {
+  defaults: Concept['meta']['defaults'];
+  dimension: Dimension;
+  sweepValue: number;
+}) {
+  // Compose the effective settings: the swept dimension takes the selected
+  // value; the others fall back to the concept defaults.
+  const effective: Record<Dimension, number | null> = {
+    cfg: dimension === 'cfg' ? sweepValue : defaults?.cfg ?? null,
+    temp: dimension === 'temp' ? sweepValue : defaults?.temperature ?? null,
+    top_k: dimension === 'top_k' ? sweepValue : defaults?.image_top_k ?? null,
+  };
+
+  return (
+    <div className="mt-4 flex flex-wrap items-center gap-2 rounded-lg border border-ink-700 bg-ink-900/40 px-3 py-2 text-xs">
+      <span className="uppercase tracking-wider text-ink-500">current</span>
+      {(['cfg', 'temp', 'top_k'] as const).map((k) => {
+        const v = effective[k];
+        if (v == null) return null;
+        const swept = dimension === k;
+        return (
+          <span
+            key={k}
+            className={
+              'rounded-md px-2 py-0.5 font-mono ' +
+              (swept
+                ? 'bg-accent-500/20 text-ink-50 ring-1 ring-accent-500/40'
+                : 'bg-ink-800 text-ink-300')
+            }
+            title={swept ? 'currently varying' : 'held at default'}
+          >
+            {k === 'cfg' ? 'cfg' : k === 'temp' ? 'temp' : 'top_k'}={v}
+          </span>
+        );
+      })}
+    </div>
   );
 }
 
