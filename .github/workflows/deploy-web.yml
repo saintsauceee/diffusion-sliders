@@ -67,12 +67,24 @@ jobs:
           du -sh public/data/unitoken
 
       - name: Next build (static export)
+        id: nextbuild
         env:
           BASE_PATH: ${{ steps.pages.outputs.base_path }}
           NEXT_TELEMETRY_DISABLED: '1'
         run: |
           echo "BASE_PATH=$BASE_PATH"
-          npx next build
+          set -o pipefail
+          npx next build 2>&1 | tee next-build.log
+
+      - name: Surface build error in summary
+        if: failure() && steps.nextbuild.conclusion == 'failure'
+        run: |
+          {
+            echo '## Next build failure (tail)';
+            echo '```';
+            tail -n 200 next-build.log || true;
+            echo '```';
+          } >> "$GITHUB_STEP_SUMMARY"
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
