@@ -264,7 +264,7 @@ async function main() {
   // `as Tree` bypasses excess-property checks. The scanner output is the
   // source of truth for the manifest shape; types.ts is the consumer view
   // and only needs to describe the fields the UI reads.
-  const body = `import type { Tree } from './types';\nconst tree = ${JSON.stringify(tree, null, 2)} as Tree;\nexport default tree;\n`;
+  const body = `import type { Tree } from './types';\nconst tree = ${JSON.stringify(tree, null, 2)} as unknown as Tree;\nexport default tree;\n`;
   await fs.writeFile(manifestPath, header + body);
 
   const totalImages = tree.concepts.reduce((acc, c) => {
